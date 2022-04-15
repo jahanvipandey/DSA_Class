@@ -7,11 +7,14 @@ class Solution {
         for(int acquire = 0; acquire < s.length(); acquire++){
             Character currentChar = s.charAt(acquire);
             
-            while(release < acquire && memo.containsKey(currentChar)){
-                Character disChar = s.charAt(release);
-                memo.remove(disChar);
-                release += 1;    
-            }
+            // while(release < acquire && memo.containsKey(currentChar)){
+            //     Character disChar = s.charAt(release);
+            //     memo.remove(disChar);
+            //     release += 1;    
+            // }
+            
+            if(memo.containsKey(currentChar) && memo.get(currentChar) >= release)
+                release = memo.get(currentChar) + 1;
             
             memo.put(currentChar, acquire);
             answer = Math.max(answer, acquire - release + 1);
