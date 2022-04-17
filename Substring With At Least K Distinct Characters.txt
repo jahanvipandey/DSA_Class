@@ -1,0 +1,40 @@
+public class Solution {
+    /**
+     * @param s: a string
+     * @param k: an integer
+     * @return: the number of substrings there are that contain at least k distinct characters
+     */
+    public long kDistinctCharacters(String s, int k) {
+        HashMap<Character, Integer> memo = new HashMap<>();
+        int distinct = 0; 
+        int release = 0;
+        long answer = 0;
+        k -= 1;
+
+        for(int acquire = 0; acquire < s.length(); acquire++){
+            Character currentChar = s.charAt(acquire);
+
+            if(memo.containsKey(currentChar)){
+                memo.put(currentChar, memo.get(currentChar) + 1);
+            } else {
+                memo.put(currentChar, 1);
+                distinct += 1;
+            }
+
+            while(release <= acquire && distinct > k){
+                Character disChar = s.charAt(release);
+                memo.put(disChar, memo.get(disChar) - 1);
+                release += 1;
+
+                if(memo.get(disChar) == 0){
+                    memo.remove(disChar);
+                    distinct -= 1;
+                }
+            }
+            answer += acquire - release + 1;
+        }
+
+        long n = s.length();
+        return n * (n + 1)/ 2 - answer;
+    }
+}
