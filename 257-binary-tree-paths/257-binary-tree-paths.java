@@ -16,7 +16,7 @@
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
         List<String> ans = new ArrayList<>();
-        rootToTree(root, "" + Integer.toString(root.val), ans);
+        rootToTree(root, Integer.toString(root.val), ans);
         return ans;
     }
     
