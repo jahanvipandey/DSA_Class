@@ -15,22 +15,22 @@
  */
 class Solution {
     public int sumRootToLeaf(TreeNode root) {
-        return sumRoot(root , 0);
+        int[] ans = {0};
+        rootToTree(root, Integer.toString(root.val), ans);
+        return ans[0];
     }
-    
-    private int sumRoot(TreeNode root, int totalSum){
         
-        if(root == null)
-            return 0;
+    public void rootToTree(TreeNode root, String currentPath, int[] ans) {
         
-        totalSum = totalSum * 2 + root.val;
+        if(root.left == null && root.right == null){
+            ans[0] += Integer.parseInt(currentPath, 2);
+            return;
+        }
         
-        if(root.left == null && root.right == null)
-            return totalSum;
+        if(root.left != null)
+            rootToTree(root.left, currentPath + Integer.toString(root.left.val), ans);
         
-        int leftSum = sumRoot(root.left, totalSum);
-        int rightSum = sumRoot(root.right, totalSum);
-        
-        return leftSum + rightSum;
-     }
+        if(root.right != null)
+            rootToTree(root.right, currentPath + Integer.toString(root.right.val), ans);
+    }
 }
