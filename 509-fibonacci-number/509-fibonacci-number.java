@@ -1,9 +1,10 @@
 class Solution {
     public int fib(int n) {
-        return fibb(n);
+        HashMap<Integer, Integer> memo = new HashMap<>();
+        return fibb(n, memo);
     }
     
-    private int fibb(int currentNum) {
+    private int fibb(int currentNum, HashMap<Integer, Integer> memo) {
          
         if(currentNum == 1)
             return 1;
@@ -11,8 +12,15 @@ class Solution {
         if(currentNum == 0)
             return 0;
         
-        int answer = fibb(currentNum - 1) + fibb(currentNum - 2);
+        int key = currentNum;
         
-        return answer;
+        if(memo.containsKey(key))
+            return memo.get(key);
+        
+        int answer = fibb(currentNum - 1, memo) + fibb(currentNum - 2, memo);
+        
+        memo.put(key, answer);
+        
+        return memo.get(key);
     }
 }
