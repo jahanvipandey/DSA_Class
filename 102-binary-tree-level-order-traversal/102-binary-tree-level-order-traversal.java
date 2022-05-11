@@ -43,7 +43,7 @@ class Solution {
             
             answer.add(level);
         }
-        
+        //Collections.reverse(answer);
         return answer;
     }
 }
