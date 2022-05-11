@@ -37,7 +37,7 @@ class Solution {
                 
                 queueSize -= 1;
             }
-            count += 1;
+            count++;
         }
         return count;
     }
