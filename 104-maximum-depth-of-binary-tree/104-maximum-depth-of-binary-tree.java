@@ -22,22 +22,23 @@ class Solution {
             return count;
         
         queue.add(root);
-        
-        while(!queue.isEmpty()){
-            int queueSize = queue.size();
             
-            while(queueSize > 0){
+        while(!queue.isEmpty()){
+            
+            int levelSize = queue.size();
+            count += 1;
+            
+            while(levelSize > 0){
                 TreeNode currentNode = queue.remove();
-               
+                
                 if(currentNode.left != null)
                     queue.add(currentNode.left);
                 
                 if(currentNode.right != null)
                     queue.add(currentNode.right);
                 
-                queueSize -= 1;
+                levelSize -= 1;
             }
-            count++;
         }
         return count;
     }
