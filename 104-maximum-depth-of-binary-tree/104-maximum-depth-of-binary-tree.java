@@ -23,13 +23,13 @@ class Solution {
         
         queue.add(root);
             
-        while(!queue.isEmpty()){
+        while(!queue.isEmpty()){ //3 9|20 15|7
             
-            int levelSize = queue.size();
-            count += 1;
+            int levelSize = queue.size(); //1 2 
+            count += 1; //1 2 
             
-            while(levelSize > 0){
-                TreeNode currentNode = queue.remove();
+            while(levelSize > 0){ //1 2 2
+                TreeNode currentNode = queue.remove(); //3 9 20 15 7
                 
                 if(currentNode.left != null)
                     queue.add(currentNode.left);
@@ -37,7 +37,7 @@ class Solution {
                 if(currentNode.right != null)
                     queue.add(currentNode.right);
                 
-                levelSize -= 1;
+                levelSize -= 1; //1 0 1 0
             }
         }
         return count;
