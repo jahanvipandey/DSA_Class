@@ -28,8 +28,8 @@ class Solution {
         Queue<Pair> queue = new LinkedList<>();
         queue.add(new Pair(t1, t2));
         
-        // if(t1 == null && t2 == null)
-        //     return true; it can be added But this case is solved in while loop
+        if(t1 == null && t2 == null)
+            return true; //it can be added But this case is solved in while loop
         
         while(!queue.isEmpty()) {
             Pair currentObj = queue.remove();
