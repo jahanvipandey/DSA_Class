@@ -13,26 +13,44 @@
  *     }
  * }
  */
+class Pair {
+    TreeNode node;
+    boolean flag;
+    
+    Pair(TreeNode node, boolean flag){
+        this.node = node;
+        this.flag = flag;
+    }
+}
+
 class Solution {
     public int sumOfLeftLeaves(TreeNode root) {
-        return leftSum(root, false);
+        return sum(root, false);
     }
     
-    private int leftSum(TreeNode root, Boolean oneLeaf) {
+    private int sum(TreeNode root, boolean ifLeft) {
+        Queue<Pair> queue = new LinkedList<>();
+        int tempAns = 0;
         
         if(root == null)
-            return 0;
+            return tempAns;
         
-        if(root.left == null && root.right == null) {
-            if(oneLeaf)
-                return root.val;
-            else
-                return 0;
+        queue.add(new Pair(root, false));
+        
+        while(!queue.isEmpty()){
+            Pair currentObj = queue.remove();
+            TreeNode currentNode = currentObj.node;
+            boolean currentFlag = currentObj.flag;
+            
+            if(currentFlag == true && currentNode.left == null && currentNode.right == null)
+                tempAns += currentNode.val;
+            
+            if(currentNode.left != null)
+                queue.add(new Pair(currentNode.left, true));
+            
+            if(currentNode.right != null)
+                queue.add(new Pair(currentNode.right, false));
         }
-        
-        int leftans = leftSum(root.left, true);
-        int rightans = leftSum(root.right, false);
-        
-        return leftans + rightans;
+        return tempAns;
     }
 }
