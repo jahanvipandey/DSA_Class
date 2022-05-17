@@ -13,15 +13,42 @@
  *     }
  * }
  */
+class Pair {
+    TreeNode p;
+    TreeNode q;
+    
+    Pair(TreeNode p, TreeNode q){
+        this.p = p;
+        this.q = q;
+    }
+}
+
 class Solution {
-    public boolean isSameTree(TreeNode p, TreeNode q) {
+    public boolean isSameTree(TreeNode t1, TreeNode t2) {
+        Queue<Pair> queue = new LinkedList<>();
+        queue.add(new Pair(t1, t2));
         
-        if(p == null && q == null)
-            return true;
+        // if(t1 == null && t2 == null)
+        //     return true; it can be added But this case is solved in while loop
         
-        if(p == null || q == null || p.val != q.val)
-            return false;
-        
-        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        while(!queue.isEmpty()) {
+            Pair currentObj = queue.remove();
+            TreeNode p = currentObj.p;
+            TreeNode q = currentObj.q;
+            
+            if(p == null && q == null)
+                continue;
+            
+            if(p == null || q == null || p.val != q.val)
+                return false;
+            
+            if(p.left != null || q.left != null)
+                queue.add(new Pair(p.left, q.left));
+            
+            if(p.right != null || q.right != null)
+                queue.add(new Pair(p.right, q.right));
+            
+        }
+        return true;
     }
 }
