@@ -13,32 +13,56 @@
  *     }
  * }
  */
+
+class Pair {
+    TreeNode node;
+    TreeNode parent;
+    
+    Pair(TreeNode node, TreeNode parent){
+        this.node = node;
+        this.parent = parent;
+    }
+}
+
 class Solution {
     public boolean isCousins(TreeNode root, int x, int y) {
-        int[] parents = new int[2];
-        int[] levels = new int[2];
+        Queue<Pair> queue = new LinkedList<>();
         
-        find(root, new TreeNode(-1), 0, x, y, parents, levels);
-        return parents[0] != parents[1] && levels[0] == levels[1];
-    }
+        TreeNode parentOfx = null;
+        TreeNode parentOfy = null;
+        
+        queue.add(new Pair(root, new TreeNode(-1)));
     
-    private void find(TreeNode root, TreeNode currentParent, int currentLevel, int x, int y, int[] parents, int[] levels){
-        
-        if(root == null)
-            return;
-        
-        if(root.val == x){
-            parents[0] = currentParent.val;
-            levels[0] = currentLevel;
+        while(!queue.isEmpty()){
+            
+            int currentSize = queue.size();
+            
+            for(int i = 0; i < currentSize; i++){
+                
+                Pair currentObj = queue.remove();
+                TreeNode currentNode = currentObj.node;
+                TreeNode currentParent = currentObj.parent;
+
+                if(currentNode.val == x)
+                    parentOfx = currentParent;
+
+                if(currentNode.val == y)
+                    parentOfy = currentParent;
+
+                if(currentNode.left != null)
+                    queue.add(new Pair(currentNode.left, currentNode));
+
+                if(currentNode.right != null)
+                    queue.add(new Pair(currentNode.right, currentNode));
+            }
+            
+            if(parentOfx != null && parentOfy != null)
+                return parentOfx.val != parentOfy.val;
+            
+            if(parentOfx != null || parentOfy != null)
+                return false;
         }
-        if(root.val == y){
-            parents[1] = currentParent.val;
-            levels[1] = currentLevel;
-        }
         
-        find(root.left, root, currentLevel+1, x, y, parents, levels);
-        find(root.right, root, currentLevel+1, x, y, parents, levels);
-        
-        return;
+        return false;
     }
 }
