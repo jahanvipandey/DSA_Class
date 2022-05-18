@@ -57,7 +57,8 @@ class Solution {
             }
             
             if(parentOfx != null && parentOfy != null)
-                return parentOfx.val != parentOfy.val;
+                if(parentOfx.val != parentOfy.val)
+                    return true;
             
             if(parentOfx != null || parentOfy != null)
                 return false;
