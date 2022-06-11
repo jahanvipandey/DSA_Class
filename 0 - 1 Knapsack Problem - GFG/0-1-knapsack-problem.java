@@ -50,33 +50,29 @@ class Solution
     //Function to return max value that can be put in knapsack of capacity W.
     static int knapSack(int W, int wt[], int val[], int n) 
     { 
-        HashMap<String, Integer> memo = new HashMap<>();
-         return maxProfit(0, W, wt, val, n, memo);
+        return profit(W, wt, val, n, 0, new HashMap<String, Integer>());
     } 
     
-    static int maxProfit(int currentIndex, int capacity, int[] weight, int[] profit, int n,  HashMap<String, Integer> memo){
-        
-        if(currentIndex == n)
+    static int profit(int weight, int[] wt, int[] val, int n, int currentItem, HashMap<String, Integer> memo){
+        if(currentItem == n || weight == 0)
             return 0;
             
-        int currentWeight = weight[currentIndex];
-        int currentProfit = profit[currentIndex];
+        int currentValue = val[currentItem];
+        int currentWeight = wt[currentItem];
         
-        String currentKey = Integer.toString(currentIndex) + "-" + Integer.toString(capacity);
-        
-        if(memo.containsKey(currentKey))
-            return memo.get(currentKey);
+        String key = Integer.toString(weight) + "-" + Integer.toString(currentItem);
+        if(memo.containsKey(key))
+            return memo.get(key);
             
         int consider = 0;
-            
-        if(currentWeight <= capacity)
-            consider = currentProfit + maxProfit(currentIndex+1, capacity - currentWeight, weight, profit, n, memo);
+        if(currentWeight <= weight)
+            consider = currentValue + profit(weight - currentWeight, wt, val, n, currentItem + 1, memo);
         
-        int notConsider = maxProfit(currentIndex+1, capacity, weight, profit, n, memo);
+        int notConsider = profit(weight, wt, val, n, currentItem + 1, memo);
         
-        memo.put(currentKey, Math.max(consider, notConsider));
-        return memo.get(currentKey);
-        }
+        memo.put(key, Math.max(consider, notConsider));
+        return memo.get(key);
+    }
 }
 
 
