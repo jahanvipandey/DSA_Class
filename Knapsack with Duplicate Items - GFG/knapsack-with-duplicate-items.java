@@ -43,7 +43,7 @@ class Solution{
     }
     
     static int maxProfit(int n, int capacity, int[] val, int[] wt, int currentItem, int[][] memo){
-        if(currentItem == n || capacity == 0)
+        if(currentItem >= n || capacity == 0)
             return 0;
         
         int currentWeight = wt[currentItem];
