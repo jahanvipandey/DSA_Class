@@ -50,29 +50,31 @@ class Solution
     //Function to return max value that can be put in knapsack of capacity W.
     static int knapSack(int W, int wt[], int val[], int n) 
     { 
-        return profit(W, wt, val, n, 0, new HashMap<String, Integer>());
+        int[][] dp = new int[n][W+1];
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < W+1; j++)
+                dp[i][j] = -1;
+        return maxProfit(0, W, wt, val, n, dp);
     } 
-    
-    static int profit(int weight, int[] wt, int[] val, int n, int currentItem, HashMap<String, Integer> memo){
-        if(currentItem == n || weight == 0)
+    static public int maxProfit(int currentItem, int weight, int[] wt, int[] val, int n, int[][] dp){
+        if (weight == 0 || currentItem >= n)
             return 0;
             
-        int currentValue = val[currentItem];
         int currentWeight = wt[currentItem];
+        int currentValue = val[currentItem];
         
-        String key = Integer.toString(weight) + "-" + Integer.toString(currentItem);
-        if(memo.containsKey(key))
-            return memo.get(key);
-            
+        if(dp[currentItem][weight] != -1)
+            return dp[currentItem][weight];
+        
         int consider = 0;
-        if(currentWeight <= weight)
-            consider = currentValue + profit(weight - currentWeight, wt, val, n, currentItem + 1, memo);
+        if(weight >= currentWeight)
+            consider = currentValue + maxProfit(currentItem + 1, weight - currentWeight, wt, val, n, dp);
+        int notConsider = maxProfit(currentItem+1, weight, wt, val, n, dp);
         
-        int notConsider = profit(weight, wt, val, n, currentItem + 1, memo);
-        
-        memo.put(key, Math.max(consider, notConsider));
-        return memo.get(key);
+        dp[currentItem][weight] = Math.max(consider, notConsider);
+        return  Math.max(consider, notConsider);
     }
+    
 }
 
 
