@@ -1,9 +1,9 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        return maximumProfit(prices, 0, 1, 1, new HashMap<>());
+        return maximumProfit(prices, 0, 1, new HashMap<>());
     }
     
-    private int maximumProfit(int[] prices, int currentDay, int canBuy, int transCount, HashMap<String, Integer> memo){
+    private int maximumProfit(int[] prices, int currentDay, int canBuy, HashMap<String, Integer> memo){
         if (currentDay == prices.length)
             return 0;
         
@@ -15,12 +15,12 @@ class Solution {
         int ans = 0;
         
         if(canBuy == 1){
-            int idel = maximumProfit(prices, currentDay+1, canBuy, transCount, memo);
-            int buy = -prices[currentDay] + maximumProfit(prices, currentDay+1, 0, transCount, memo);
+            int idel = maximumProfit(prices, currentDay+1, canBuy, memo);
+            int buy = -prices[currentDay] + maximumProfit(prices, currentDay+1, 0, memo);
             ans = Math.max(idel, buy);
         } else {
-            int idel = maximumProfit(prices, currentDay+1, canBuy, transCount, memo);
-            int sell = prices[currentDay] + maximumProfit(prices, currentDay+1, 1, transCount-1, memo);
+            int idel = maximumProfit(prices, currentDay+1, canBuy, memo);
+            int sell = prices[currentDay] + maximumProfit(prices, currentDay+1, 1, memo);
             ans = Math.max(idel, sell);
         }
         
