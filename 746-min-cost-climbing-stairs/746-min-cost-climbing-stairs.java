@@ -19,10 +19,10 @@ class Solution {
         int onejump = 0;
         int twojump = 0;
         
-        if(currentIndex < currentCost.length){
+        //if(currentIndex < currentCost.length){
             onejump = currentCost[currentIndex] + minCost(currentIndex + 1, currentCost, memo);
             twojump = currentCost[currentIndex] + minCost(currentIndex + 2, currentCost, memo);
-        }
+        //}
         
         memo.put(key, Math.min(onejump, twojump));
         
