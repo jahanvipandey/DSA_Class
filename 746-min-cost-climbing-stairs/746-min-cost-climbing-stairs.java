@@ -16,12 +16,12 @@ class Solution {
         if(memo.containsKey(key))
             return memo.get(key);
         
-        int onejump = 0;
-        int twojump = 0;
+        //int onejump = 0;
+        //int twojump = 0;
         
         //if(currentIndex < currentCost.length){
-            onejump = currentCost[currentIndex] + minCost(currentIndex + 1, currentCost, memo);
-            twojump = currentCost[currentIndex] + minCost(currentIndex + 2, currentCost, memo);
+            int onejump = currentCost[currentIndex] + minCost(currentIndex + 1, currentCost, memo);
+            int twojump = currentCost[currentIndex] + minCost(currentIndex + 2, currentCost, memo);
         //}
         
         memo.put(key, Math.min(onejump, twojump));
