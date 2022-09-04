@@ -1,25 +1,22 @@
 class Solution {
     public int fib(int n) {
-        HashMap<Integer, Integer> memo = new HashMap<>();
-        return fibb(n, memo);
+        return fibo(n, new HashMap<Integer, Integer>());
     }
     
-    private int fibb(int currentNum, HashMap<Integer, Integer> memo) {
-         
-        if(currentNum == 1)
-            return 1;
+    private int fibo(int n,HashMap<Integer, Integer> memo){
         
-        if(currentNum == 0)
+        if(n == 0)
             return 0;
         
-        int key = currentNum;
+        if(n == 1)
+            return 1;
+        
+        int key = n;
         
         if(memo.containsKey(key))
             return memo.get(key);
         
-        int answer = fibb(currentNum - 1, memo) + fibb(currentNum - 2, memo);
-        
-        memo.put(key, answer);
+        memo.put(key, fibo(n-1, memo) + fibo(n-2, memo));
         
         return memo.get(key);
     }
