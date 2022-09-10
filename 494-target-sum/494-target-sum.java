@@ -1,23 +1,25 @@
 class Solution {
     public int findTargetSumWays(int[] nums, int target) {
-        return targetSum(nums, 0, target, new HashMap<String, Integer>());
+        return ways(0, target, nums, new HashMap<String, Integer>());
     }
     
-    private int targetSum(int[] nums, int currentItem, int target, HashMap<String, Integer> memo){
-        if(currentItem == nums.length && target == 0)
+    private int ways(int currentIndex, int target, int[] nums, HashMap<String, Integer> memo){
+        if(target == 0 && currentIndex == nums.length)
             return 1;
         
-        if(currentItem == nums.length && target != 0)
+        if(currentIndex >= nums.length)
             return 0;
         
-        String key = Integer.toString(currentItem) + "-" + Integer.toString(target);
+        String key = Integer.toString(currentIndex) + "-" + Integer.toString(target);
+        
         if(memo.containsKey(key))
             return memo.get(key);
         
-        int plusSign = targetSum(nums, currentItem+1, target - nums[currentItem], memo);
-        int minusSign = targetSum(nums, currentItem+1, target + nums[currentItem], memo);
+        int add = ways(currentIndex+1, target - nums[currentIndex], nums, memo);
+        int subtract = ways(currentIndex+1, target + nums[currentIndex], nums, memo);
         
-        memo.put(key, plusSign + minusSign);
+        memo.put(key, add + subtract);
+        
         return memo.get(key);
     }
 }
