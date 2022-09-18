@@ -1,30 +1,47 @@
 class Solution {
     public int maxProfit(int k, int[] prices) {
-        return maximumProfit(prices, 0, 1, k, new HashMap<>());
+        int[][][] dp = new int[prices.length][2][k+1];
+        
+        for(int i = 0; i < prices.length; i++)
+            for(int j = 0; j < 2; j++)
+                for(int h = 0; h < k+1; h++)
+                    dp[i][j][h] = -1;
+        
+        return profit(0, 1, k, prices, dp);
     }
     
-    private int maximumProfit(int[] prices, int currentDay, int canBuy, int transCount, HashMap<String, Integer> memo){
-        if (currentDay == prices.length || transCount == 0)
+    private int profit(int currentIndex, int canBuy, int transaction, int[] prices, int[][][] dp){
+        if(currentIndex >= prices.length || transaction == 0)
             return 0;
         
-        String currentKey = currentDay + "-" + canBuy + "-" + transCount;
+        //String key = Integer.toString(currentIndex) + "-" + Integer.toString(canBuy) + "-" + Integer.toString(transaction);
         
-        if(memo.containsKey(currentKey))
-            return memo.get(currentKey);
+        // if(memo.containsKey(key))
+        //     return memo.get(key);
         
-        int ans = 0;
+        if(dp[currentIndex][canBuy][transaction] != -1)
+            return dp[currentIndex][canBuy][transaction];
         
+        int idel = profit(currentIndex + 1, canBuy, transaction, prices, dp);
+        
+        int buy = 0;
         if(canBuy == 1){
-            int idel = maximumProfit(prices, currentDay+1, canBuy, transCount, memo);
-            int buy = -prices[currentDay] + maximumProfit(prices, currentDay+1, 0, transCount, memo);
-            ans = Math.max(idel, buy);
-        } else {
-            int idel = maximumProfit(prices, currentDay+1, canBuy, transCount, memo);
-            int sell = prices[currentDay] + maximumProfit(prices, currentDay+1, 1, transCount-1, memo);
-            ans = Math.max(idel, sell);
-        }
+            buy = -(prices[currentIndex]) + profit(currentIndex + 1, 0, transaction, prices, dp);
+        } else if(canBuy == 0){
+            buy = prices[currentIndex] + profit(currentIndex + 1, 1, transaction - 1, prices, dp);
+        }               
         
-        memo.put(currentKey, ans);
-        return ans;
+//         int idel = 0;
+//         int buy = 0;
+//         if(canBuy == 1){
+//             idel = profit(currentIndex + 1, canBuy, 1, prices);
+//             buy = -(prices[currentIndex]) + profit(currentIndex + 1, 0, transaction, prices);
+//         } else {
+//             idel = profit(currentIndex + 1, canBuy, 1, prices);
+//             buy = prices[currentIndex] + profit(currentIndex + 1, 1, transaction - 1, prices);
+//         }
+            
+        dp[currentIndex][canBuy][transaction] = Math.max(idel, buy);
+        return dp[currentIndex][canBuy][transaction];
     }
 }
