@@ -1,32 +1,32 @@
 class Solution {
     public int numRollsToTarget(int n, int k, int target) {
-        int[][] dp = new int[n+1][target+1];
-        for (int[] row : dp)
-            Arrays.fill(row, -1);
-        return possibleWays(n, target, k, dp);
+        return possibleWays(n, target, k, new HashMap<String, Integer>());
     }
     
-    private int possibleWays(int n, int target, int faces, int[][] dp){
+    private int possibleWays(int n, int target, int faces, HashMap<String, Integer> memo){
         
         if(n == 0 && target == 0)
             return 1;
-	
-	if(target <= 0 || n == 0)
-            return 0;
-       
-        int MOD = (int)(Math.pow(10, 9)) + 7; //1e9 + 7
-
-	if(dp[n][target] != -1)
-            return dp[n][target];
         
-	int ans = 0;
+        if(target <= 0 || n == 0)
+            return 0;
+        
+        String key = Integer.toString(n) + '-' + Integer.toString(target);
+        if(memo.containsKey(key))
+            return memo.get(key);
+        
+        int ans = 0;
+        int MOD = (int)(Math.pow(10, 9)) + 7; //1e9 + 7
+        
         for(int i = 1; i <= faces; i++){
-            int tempAns = possibleWays(n-1, target-i, faces, dp) % MOD;
+            int tempAns = possibleWays(n-1, target-i, faces, memo) % MOD;
             ans = ans % MOD;
             ans = (ans + tempAns) % MOD;
+            
+            //ans += possibleWays(n-1, target-i, faces, memo);
         }
         
-        dp[n][target] = ans;
-        return dp[n][target];
+        memo.put(key, ans);
+        return memo.get(key);
     }
 }
