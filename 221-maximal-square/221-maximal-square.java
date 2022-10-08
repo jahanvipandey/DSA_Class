@@ -1,38 +1,39 @@
 class Solution {
     public int maximalSquare(char[][] matrix) {
-        int m = matrix.length;
-        int n = matrix[0].length;
         
+        int maximum = 0;
         HashMap<String, Integer> memo = new HashMap<>();
         
-        int area = 0;
+         for( int i = 0;i<matrix.length;i++){
+              for( int j = 0;j<matrix[0].length;j++){
+                  
+             if(matrix[i][j] == '1'){
+             int result =  findMaxSquare(matrix, i, j, matrix.length, matrix[0].length,memo);
+              maximum = Math.max(maximum, result * result );
+             }
+                  
+             }
+         }
+        return maximum;
         
-        for(int currentRow = 0; currentRow < m; currentRow++){
-             for(int currentCol = 0; currentCol < n; currentCol++){
-                if(matrix[currentRow][currentCol] == '1'){
-                    int side = maxLen(matrix, currentRow, currentCol, m, n, memo);
-                    area = Math.max(area, side * side);
-                }
-            }
-        }
-           
-        return area;
     }
     
-    private int maxLen(char[][] matrix, int currentRow, int currentCol, int m, int n, HashMap<String, Integer> memo){
-        if(currentRow < 0 || currentRow >= m || currentCol < 0 ||currentCol >= n || matrix[currentRow][currentCol] == '0')
-            return 0;
+    private int findMaxSquare(char[][] matrix, int currRow, int currCol, int row, int col, HashMap<String, Integer> memo)
+    {
+        if( currCol<=-1 || currCol>=col || currRow<=-1 || currRow>=row || matrix[currRow][currCol] == '0') return 0;
         
-        String key = currentRow + "-" + currentCol;
+     
+         String key = currRow + "-" + currCol;
         
-        if(memo.containsKey(key))
-            return memo.get(key);
+        if(memo.containsKey(key)) return memo.get(key);
         
-        int right = 1 + maxLen(matrix, currentRow, currentCol+1, m, n, memo);
-        int down = 1 + maxLen(matrix, currentRow+1, currentCol, m, n, memo);
-        int rightDiag = 1 + maxLen(matrix, currentRow+1, currentCol+1, m, n, memo);
+       int right = 1 + findMaxSquare(matrix, currRow, currCol + 1,row, col,memo);
+       int down =  1 +   findMaxSquare(matrix,currRow+1, currCol ,row, col,memo);
+       int diagonal = 1 +  findMaxSquare(matrix, currRow+1, currCol + 1, row, col,memo);
+           
+        int ans = Math.min(right, Math.min(down,diagonal));
         
-        memo.put(key, Math.min(right, Math.min(down, rightDiag)));
+        memo.put(key, ans);
         
         return memo.get(key);
     }
