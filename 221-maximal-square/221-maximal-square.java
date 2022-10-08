@@ -1,40 +1,35 @@
 class Solution {
     public int maximalSquare(char[][] matrix) {
-        
+        int m = matrix.length;
+        int n = matrix[0].length;
         int maximum = 0;
+        
         HashMap<String, Integer> memo = new HashMap<>();
         
-         for( int i = 0;i<matrix.length;i++){
-              for( int j = 0;j<matrix[0].length;j++){
-                  
-             if(matrix[i][j] == '1'){
-             int result =  findMaxSquare(matrix, i, j, matrix.length, matrix[0].length,memo);
-              maximum = Math.max(maximum, result * result );
-             }
-                  
-             }
-         }
-        return maximum;
+        for(int i = 0; i < m; i++)
+            for(int j = 0; j< n; j++){
+                if(matrix[i][j] == '1'){
+                    int length = findLength(i, j, m, n, matrix, memo);
+                    maximum = Math.max(maximum, length*length);
+                }    
+            }
         
+        return maximum;
     }
     
-    private int findMaxSquare(char[][] matrix, int currRow, int currCol, int row, int col, HashMap<String, Integer> memo)
-    {
-        if( currCol<=-1 || currCol>=col || currRow<=-1 || currRow>=row || matrix[currRow][currCol] == '0') return 0;
+    private int findLength(int r, int c, int m, int n, char[][] matrix, HashMap<String, Integer> memo){
+        if(r >= m || c >= n || r < 0 || c < 0 || matrix[r][c] == '0')
+            return 0;
         
-     
-         String key = currRow + "-" + currCol;
+        String key = Integer.toString(r) + '-' + Integer.toString(c);
+        if(memo.containsKey(key))
+            return memo.get(key);
         
-        if(memo.containsKey(key)) return memo.get(key);
+        int right = 1 + findLength(r, c+1, m, n, matrix, memo);
+        int down = 1 + findLength(r+1, c, m, n, matrix, memo);
+        int rightDiagonal = 1 + findLength(r+1, c+1, m, n, matrix, memo);
         
-       int right = 1 + findMaxSquare(matrix, currRow, currCol + 1,row, col,memo);
-       int down =  1 +   findMaxSquare(matrix,currRow+1, currCol ,row, col,memo);
-       int diagonal = 1 +  findMaxSquare(matrix, currRow+1, currCol + 1, row, col,memo);
-           
-        int ans = Math.min(right, Math.min(down,diagonal));
-        
-        memo.put(key, ans);
-        
+        memo.put(key, Math.min(Math.min(right, down), rightDiagonal));
         return memo.get(key);
     }
 }
