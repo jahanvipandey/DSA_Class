@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 import java.util.LinkedList; 
 import java.util.Queue; 
 import java.io.*;
@@ -102,6 +102,7 @@ class GfG {
         }
     }
 }
+
 // } Driver Code Ends
 
 
@@ -124,14 +125,15 @@ class Tree
     //Function to return list containing elements of left view of binary tree.
     ArrayList<Integer> leftView(Node root)
     {
-      ArrayList<Integer> answer = new ArrayList<>();
-      HashMap<Integer, Integer> map = new HashMap<>();
-      left(root, 0, answer, map);
-      return answer;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        ArrayList<Integer> answer = new ArrayList<>();
+        
+        leftview(root, 0, answer, map);
+        
+        return answer;
     }
     
-    public void left(Node root, int currentLevel, ArrayList<Integer> answer, HashMap<Integer, Integer> map) {
-        
+    private void leftview(Node root, int currentLevel, ArrayList<Integer> answer, HashMap<Integer, Integer> map){
         if(root == null)
             return;
             
@@ -140,10 +142,10 @@ class Tree
             answer.add(root.data);
         }
         
-        left(root.left, currentLevel + 1, answer, map);
-        left(root.right, currentLevel + 1, answer, map);
+        leftview(root.left, currentLevel+1, answer, map);
+        leftview(root.right, currentLevel+1, answer, map);
         
         return;
         
-    }
+    } 
 }
