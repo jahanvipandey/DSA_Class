@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 //Initial Template for Java
 
 
@@ -107,6 +107,7 @@ class GfG {
 	}
 }
 
+
 // } Driver Code Ends
 
 
@@ -129,14 +130,16 @@ class Node
 
 class Solution{
     //Function to return list containing elements of right view of binary tree.
-    ArrayList<Integer> rightView(Node node) {
-        ArrayList<Integer> answer = new ArrayList<>();
+    ArrayList<Integer> rightView(Node root) {
         HashMap<Integer, Integer> map = new HashMap<>();
-        right(node, 0, answer, map);
+        ArrayList<Integer> answer = new ArrayList<>();
+        
+        rightview(root, 0, map, answer);
+        
         return answer;
     }
-    public void right(Node root, int currentLevel, ArrayList<Integer> answer, HashMap<Integer, Integer> map) {
-        
+    
+    void rightview(Node root, int currentLevel, HashMap<Integer, Integer> map, ArrayList<Integer> answer){
         if(root == null)
             return;
             
@@ -145,11 +148,10 @@ class Solution{
             answer.add(root.data);
         }
         
-        right(root.right, currentLevel + 1, answer, map);
-        right(root.left, currentLevel + 1, answer, map);
+        rightview(root.right, currentLevel+1, map, answer);
+        rightview(root.left, currentLevel+1, map, answer);
         
         return;
-        
-    }    
+    }
 }
 
