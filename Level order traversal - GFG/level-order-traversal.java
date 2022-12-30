@@ -1,4 +1,4 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 //Initial Template for Java
 
 import java.util.LinkedList; 
@@ -105,6 +105,7 @@ class GfG {
    
 }
 
+
 // } Driver Code Ends
 
 
@@ -131,11 +132,13 @@ class Solution
         Queue<Node> queue = new LinkedList<>();
         ArrayList<Integer> answer = new ArrayList<>();
         
+        if(root == null)
+            return answer;
+            
         queue.add(root);
         
         while(!queue.isEmpty()){
             Node currentNode = queue.remove();
-            
             answer.add(currentNode.data);
             
             if(currentNode.left != null)
@@ -144,7 +147,6 @@ class Solution
             if(currentNode.right != null)
                 queue.add(currentNode.right);
         }
-        
         return answer;
     }
 }
