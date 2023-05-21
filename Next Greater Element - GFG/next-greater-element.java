@@ -39,9 +39,10 @@ class Solution{
         long[] ans = new long[n];
         
         for(int i = n-1; i >= 0; i--){
-            long currentVal = arr[i];
             
-            while(!stack.isEmpty() && stack.peek() <= currentVal){
+            long current = arr[i];
+            
+            while(!stack.isEmpty() && stack.peek() <= current){
                 stack.pop();
             }
             
@@ -51,7 +52,7 @@ class Solution{
                 ans[i] = stack.peek();
             }
             
-            stack.push(currentVal);
+            stack.push(current);
         }
         
         return ans;
